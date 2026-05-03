@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NBA Playoff Predictor — Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; font-size: 14px; padding: 32px; }
+  h1 { font-size: 22px; font-weight: 500; }
+  h2 { font-size: 15px; font-weight: 500; margin-bottom: 14px; }
+  .subtitle { font-size: 13px; color: #888; margin-top: 3px; }
+  header { margin-bottom: 28px; display: flex; align-items: flex-start; justify-content: space-between; }
+  .repo-link { font-size: 12px; color: #185fa5; text-decoration: none; border: 0.5px solid #b5d4f4; padding: 6px 12px; border-radius: 8px; }
+  .repo-link:hover { background: #e6f1fb; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .card { background: #fff; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 14px; padding: 20px 24px; }
+  .metric-card { background: #fff; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 16px 18px; }
+  .metric-label { font-size: 12px; color: #888; margin-bottom: 6px; }
+  .metric-value { font-size: 26px; font-weight: 500; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 5px; cursor: pointer; transition: opacity 0.15s; user-select: none; }
+  .badge:hover { opacity: 0.8; }
+  .badge-done    { background: #eaf3de; color: #3b6d11; }
+  .badge-active  { background: #e6f1fb; color: #185fa5; }
+  .badge-pending { background: #f1efe8; color: #5f5e5a; }
+  .task-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.07); cursor: pointer; transition: background 0.1s; border-radius: 6px; padding-left: 6px; padding-right: 6px; }
+  .task-row:last-child { border-bottom: none; }
+  .task-row:hover { background: #f9f9f8; }
+  .task-name { font-size: 13px; font-weight: 500; }
+  .task-who  { font-size: 12px; color: #888; margin-top: 2px; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; }
+  .av-a { background: #e6f1fb; color: #185fa5; }
+  .av-o { background: #faeeda; color: #854f0b; }
+  .av-b { background: #eaf3de; color: #3b6d11; }
+  .av-e { background: #fbeaf0; color: #993556; }
+  .av-all { background: #eeedfe; color: #534ab7; font-size: 10px; }
+  .avatar-row { display: flex; gap: 5px; }
+  .dataset-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 6px; border-bottom: 0.5px solid rgba(0,0,0,0.07); }
+  .dataset-row:last-child { border-bottom: none; }
+  .dataset-name { font-size: 13px; font-weight: 500; }
+  .dataset-desc { font-size: 11px; color: #888; margin-top: 1px; }
+  a.ds-link { color: #185fa5; text-decoration: none; font-size: 12px; border: 0.5px solid #b5d4f4; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
+  a.ds-link:hover { background: #e6f1fb; }
+  .chart-wrap { position: relative; height: 220px; width: 100%; }
+  .file-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 6px; border-bottom: 0.5px solid rgba(0,0,0,0.07); }
+  .file-row:last-child { border-bottom: none; }
+  .file-name { font-size: 13px; font-weight: 500; font-family: 'SF Mono', 'Fira Code', monospace; }
+  .file-desc { font-size: 11px; color: #888; margin-top: 2px; }
+  .dlv-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .dlv-card { background: #f9f9f8; border: 0.5px solid rgba(0,0,0,0.08); border-radius: 10px; padding: 14px 16px; }
+  .dlv-label { font-size: 10px; font-weight: 500; color: #aaa; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+  .dlv-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .dlv-sub   { font-size: 12px; color: #888; }
+  .tab-bar { display: flex; gap: 4px; margin-bottom: 18px; }
+  .tab { padding: 6px 14px; border-radius: 7px; font-size: 13px; cursor: pointer; border: 0.5px solid transparent; transition: all 0.15s; color: #666; }
+  .tab:hover { background: #ebebea; }
+  .tab.active { background: #fff; border-color: rgba(0,0,0,0.1); color: #1a1a1a; font-weight: 500; }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+  .model-input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .model-input-row label { font-size: 12px; color: #666; min-width: 130px; }
+  .model-input-row input { flex: 1; height: 32px; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; padding: 0 10px; font-size: 13px; background: #fff; }
+  .model-input-row input:focus { outline: none; border-color: #378add; }
+  .update-btn { padding: 8px 16px; background: #fff; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 8px; font-size: 13px; cursor: pointer; transition: background 0.15s; }
+  .update-btn:hover { background: #f0f0ee; }
+  .progress-track { background: #f1efe8; border-radius: 4px; height: 5px; flex: 1; margin: 0 8px; }
+  .progress-fill  { height: 5px; border-radius: 4px; background: #378add; transition: width 0.4s; }
+  .section-gap { margin-bottom: 16px; }
+  .legend-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; font-size: 12px; color: #666; }
+  .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>NBA Playoff Predictor</h1>
+    <p class="subtitle">IEOR 142A Final Project &nbsp;·&nbsp; Spring 2026 &nbsp;·&nbsp; Team of Five</p>
+  </div>
+  <a class="repo-link" href="https://github.com/fallensnake/IEOR142AProject" target="_blank">GitHub repo ↗</a>
+</header>
+
+<div class="grid-4 section-gap">
+  <div class="metric-card">
+    <div class="metric-label">Tasks complete</div>
+    <div class="metric-value" id="tasks-done-count">2 / 5</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">Datasets found</div>
+    <div class="metric-value">5</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">Models built</div>
+    <div class="metric-value">4</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">Report pages left</div>
+    <div class="metric-value">4</div>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="switchTab('overview')">Overview</div>
+  <div class="tab" onclick="switchTab('models')">Model results</div>
+  <div class="tab" onclick="switchTab('files')">Files</div>
+  <div class="tab" onclick="switchTab('deliverables')">Deliverables</div>
+</div>
+
+<!-- OVERVIEW TAB -->
+<div class="tab-pane active" id="tab-overview">
+  <div class="grid-2">
+
+    <div class="card">
+      <h2>Task tracker <span style="font-size:12px;font-weight:400;color:#aaa">— click to toggle</span></h2>
+      <div class="task-row" onclick="toggleTask(this)">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar av-all">ALL</div>
+          <div><div class="task-name">Collect datasets</div><div class="task-who">Everyone</div></div>
+        </div>
+        <span class="badge badge-done">Done</span>
+      </div>
+      <div class="task-row" onclick="toggleTask(this)">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar av-a">A</div>
+          <div><div class="task-name">Data preprocessing &amp; cleaning</div><div class="task-who">Anthony</div></div>
+        </div>
+        <span class="badge badge-done">Done</span>
+      </div>
+      <div class="task-row" onclick="toggleTask(this)">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar-row"><div class="avatar av-o">O</div><div class="avatar av-b">B</div></div>
+          <div><div class="task-name">Models &amp; data manipulation</div><div class="task-who">Olivia, Benjamin</div></div>
+        </div>
+        <span class="badge badge-active">Active</span>
+      </div>
+      <div class="task-row" onclick="toggleTask(this)">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar av-b">B</div>
+          <div><div class="task-name">Formulating the model</div><div class="task-who">Benjamin</div></div>
+        </div>
+        <span class="badge badge-active">Active</span>
+      </div>
+      <div class="task-row" onclick="toggleTask(this)">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar av-e">E</div>
+          <div><div class="task-name">Compile presentation</div><div class="task-who">Eddie</div></div>
+        </div>
+        <span class="badge badge-pending">Pending</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Datasets</h2>
+      <div class="dataset-row">
+        <div><div class="dataset-name">NBA Games (nathanlauga)</div><div class="dataset-desc">Game-by-game results &amp; box scores, 2004–present</div></div>
+        <a class="ds-link" href="https://www.kaggle.com/datasets/nathanlauga/nba-games" target="_blank">Kaggle ↗</a>
+      </div>
+      <div class="dataset-row">
+        <div><div class="dataset-name">NBA Database (wyattowalsh)</div><div class="dataset-desc">Comprehensive stats, 1946–present, daily updated</div></div>
+        <a class="ds-link" href="https://www.kaggle.com/datasets/wyattowalsh/basketball" target="_blank">Kaggle ↗</a>
+      </div>
+      <div class="dataset-row">
+        <div><div class="dataset-name">NBA Stats 1947–present</div><div class="dataset-desc">Team &amp; player season averages (sumitrodatta)</div></div>
+        <a class="ds-link" href="https://www.kaggle.com/datasets/sumitrodatta/nba-aba-baa-stats" target="_blank">Kaggle ↗</a>
+      </div>
+      <div class="dataset-row">
+        <div><div class="dataset-name">FiveThirtyEight NBA ELO</div><div class="dataset-desc">Pre-computed ELO ratings, every game since 1946</div></div>
+        <a class="ds-link" href="https://raw.githubusercontent.com/fivethirtyeight/data/master/nba-elo/nbaallelo.csv" target="_blank">CSV ↗</a>
+      </div>
+      <div class="dataset-row">
+        <div><div class="dataset-name">Updated NBA ELO (Neil Paine)</div><div class="dataset-desc">Archive updated from 538 version</div></div>
+        <a class="ds-link" href="https://github.com/Neil-Paine-1/NBA-elo" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODELS TAB -->
+<div class="tab-pane" id="tab-models">
+  <div class="grid-2 section-gap">
+    <div class="card">
+      <h2>Update model results</h2>
+      <p style="font-size:12px;color:#888;margin-bottom:14px">Paste your Brier scores here after running nba_modeling.ipynb</p>
+      <div class="model-input-row"><label>ELO Baseline</label><input id="in-elo" type="number" step="0.001" value="0.235" min="0" max="0.25"></div>
+      <div class="model-input-row"><label>Logistic Regression</label><input id="in-lr" type="number" step="0.001" value="0.220" min="0" max="0.25"></div>
+      <div class="model-input-row"><label>Neural Network</label><input id="in-nn" type="number" step="0.001" value="0.215" min="0" max="0.25"></div>
+      <div class="model-input-row"><label>XGBoost</label><input id="in-xgb" type="number" step="0.001" value="0.210" min="0" max="0.25"></div>
+      <button class="update-btn" onclick="updateCharts()" style="margin-top:8px">Update charts</button>
+    </div>
+    <div class="card">
+      <h2>Brier score comparison</h2>
+      <p style="font-size:11px;color:#888;margin-bottom:10px">Lower is better &nbsp;·&nbsp; Random = 0.250</p>
+      <div class="chart-wrap"><canvas id="brierChart"></canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Feature importance — XGBoost</h2>
+    <p style="font-size:11px;color:#888;margin-bottom:12px">Expected ranking — update after running the modeling notebook</p>
+    <div style="position:relative;height:260px;width:100%"><canvas id="featChart"></canvas></div>
+  </div>
+</div>
+
+<!-- FILES TAB -->
+<div class="tab-pane" id="tab-files">
+  <div class="card">
+    <h2>Repository &nbsp;<span style="font-size:12px;font-weight:400;color:#aaa">github.com/fallensnake/IEOR142AProject</span></h2>
+    <div class="file-row">
+      <div><div class="file-name">Marchmlmania.ipynb</div><div class="file-desc">Reference project — NCAA tournament predictor</div></div>
+      <span class="badge badge-done">Committed</span>
+    </div>
+    <div class="file-row">
+      <div><div class="file-name">NBA_Playoff_Predictor_Proposal.docx</div><div class="file-desc">One-page project proposal</div></div>
+      <span class="badge badge-done">Committed</span>
+    </div>
+    <div class="file-row">
+      <div><div class="file-name">nba_preprocessing.ipynb</div><div class="file-desc">Data collection, cleaning, feature engineering — Anthony</div></div>
+      <span class="badge badge-done">Committed</span>
+    </div>
+    <div class="file-row">
+      <div><div class="file-name">nba_modeling.ipynb</div><div class="file-desc">ELO, logistic regression, XGBoost, neural network — Olivia, Benjamin</div></div>
+      <span class="badge badge-pending">To commit</span>
+    </div>
+    <div class="file-row">
+      <div><div class="file-name">nba_dashboard.html</div><div class="file-desc">This dashboard</div></div>
+      <span class="badge badge-pending">To commit</span>
+    </div>
+  </div>
+  <div style="margin-top:14px;padding:14px 18px;background:#f9f9f8;border-radius:10px;font-size:13px;color:#666;border:0.5px solid rgba(0,0,0,0.08)">
+    <strong style="color:#1a1a1a">To push a new file:</strong> &nbsp;
+    <code style="background:#ebebea;padding:2px 7px;border-radius:4px;font-size:12px">git add &lt;filename&gt;</code> &nbsp;→&nbsp;
+    <code style="background:#ebebea;padding:2px 7px;border-radius:4px;font-size:12px">git commit -m "message"</code> &nbsp;→&nbsp;
+    <code style="background:#ebebea;padding:2px 7px;border-radius:4px;font-size:12px">git push</code>
+  </div>
+</div>
+
+<!-- DELIVERABLES TAB -->
+<div class="tab-pane" id="tab-deliverables">
+  <div class="dlv-grid section-gap">
+    <div class="dlv-card">
+      <div class="dlv-label">Proposal</div>
+      <div class="dlv-title">One-page proposal</div>
+      <div class="dlv-sub">Problem, data, techniques, impact/consequences</div>
+      <div style="margin-top:10px"><span class="badge badge-done">Done ✓</span></div>
+    </div>
+    <div class="dlv-card">
+      <div class="dlv-label">Final report</div>
+      <div class="dlv-title">4-page writeup</div>
+      <div class="dlv-sub">Due on final exam day — all team</div>
+      <div style="margin-top:10px"><span class="badge badge-pending">Pending</span></div>
+    </div>
+    <div class="dlv-card">
+      <div class="dlv-label">Presentation</div>
+      <div class="dlv-title">5-minute slides</div>
+      <div class="dlv-sub">Last week of class / RRR week — Eddie</div>
+      <div style="margin-top:10px"><span class="badge badge-pending">Pending</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Report outline (4 pages)</h2>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:4px">
+      <div style="padding:12px;background:#f9f9f8;border-radius:8px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 1 — Introduction</div>
+        <div style="font-size:12px;color:#888">Problem statement, motivation, related work (~0.5 pages)</div>
+      </div>
+      <div style="padding:12px;background:#f9f9f8;border-radius:8px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 2 — Data</div>
+        <div style="font-size:12px;color:#888">Sources, cleaning process, feature engineering (~0.75 pages)</div>
+      </div>
+      <div style="padding:12px;background:#f9f9f8;border-radius:8px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 3 — Methods &amp; Results</div>
+        <div style="font-size:12px;color:#888">Models, validation, Brier scores, feature importance (~1.5 pages)</div>
+      </div>
+      <div style="padding:12px;background:#f9f9f8;border-radius:8px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 4 — Discussion</div>
+        <div style="font-size:12px;color:#888">Conclusions, limitations, ethical considerations (~0.75 pages + appendices)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+const taskCycle = ['badge-done', 'badge-active', 'badge-pending'];
+const taskLabels = ['Done', 'Active', 'Pending'];
+function toggleTask(row) {
+  const badge = row.querySelector('.badge');
+  const cur = taskCycle.findIndex(c => badge.classList.contains(c));
+  const next = (cur + 1) % 3;
+  taskCycle.forEach(c => badge.classList.remove(c));
+  badge.classList.add(taskCycle[next]);
+  badge.textContent = taskLabels[next];
+  updateTaskCount();
+}
+function updateTaskCount() {
+  const done = document.querySelectorAll('.badge-done').length;
+  const total = document.querySelectorAll('.task-row').length;
+  document.getElementById('tasks-done-count').textContent = done + ' / ' + total;
+}
+
+let brierChart, featChart;
+
+function buildBrierChart(data) {
+  const colors = ['#b4b2a9', '#85b7eb', '#97c459', '#378add'];
+  if (brierChart) brierChart.destroy();
+  brierChart = new Chart(document.getElementById('brierChart'), {
+    type: 'bar',
+    data: {
+      labels: ['ELO Baseline', 'Logistic Reg.', 'Neural Net', 'XGBoost'],
+      datasets: [{ data, backgroundColor: colors, borderRadius: 6, borderWidth: 0 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' Brier: ' + Number(c.raw).toFixed(3) } } },
+      scales: {
+        y: { min: 0.19, max: 0.26, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 11 }, callback: v => v.toFixed(2) } },
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+function buildFeatChart() {
+  if (featChart) featChart.destroy();
+  featChart = new Chart(document.getElementById('featChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Assists diff', 'Rebounds diff', 'Shooting % diff', 'Away win % diff', 'Recent form', 'Win % diff', 'Net rating diff', 'ELO diff'],
+      datasets: [{ data: [0.04, 0.05, 0.07, 0.08, 0.10, 0.14, 0.18, 0.34], backgroundColor: '#378add', borderRadius: 4, borderWidth: 0 }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 11 }, callback: v => (v * 100).toFixed(0) + '%' } },
+        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+function updateCharts() {
+  const data = [
+    parseFloat(document.getElementById('in-elo').value),
+    parseFloat(document.getElementById('in-lr').value),
+    parseFloat(document.getElementById('in-nn').value),
+    parseFloat(document.getElementById('in-xgb').value),
+  ];
+  buildBrierChart(data);
+}
+
+buildBrierChart([0.235, 0.220, 0.215, 0.210]);
+buildFeatChart();
+</script>
+</body>
+</html>
