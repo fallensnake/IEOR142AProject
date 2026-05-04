@@ -25,7 +25,8 @@
   .badge-done    { background: #eaf3de; color: #3b6d11; }
   .badge-active  { background: #e6f1fb; color: #185fa5; }
   .badge-pending { background: #f1efe8; color: #5f5e5a; }
-  .task-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.07); cursor: pointer; transition: background 0.1s; border-radius: 6px; padding-left: 6px; padding-right: 6px; }
+  .badge-fixed   { background: #faeeda; color: #854f0b; }
+  .task-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 6px; border-bottom: 0.5px solid rgba(0,0,0,0.07); cursor: pointer; border-radius: 6px; }
   .task-row:last-child { border-bottom: none; }
   .task-row:hover { background: #f9f9f8; }
   .task-name { font-size: 13px; font-weight: 500; }
@@ -37,39 +38,67 @@
   .av-e { background: #fbeaf0; color: #993556; }
   .av-all { background: #eeedfe; color: #534ab7; font-size: 10px; }
   .avatar-row { display: flex; gap: 5px; }
-  .dataset-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 6px; border-bottom: 0.5px solid rgba(0,0,0,0.07); }
-  .dataset-row:last-child { border-bottom: none; }
-  .dataset-name { font-size: 13px; font-weight: 500; }
-  .dataset-desc { font-size: 11px; color: #888; margin-top: 1px; }
-  a.ds-link { color: #185fa5; text-decoration: none; font-size: 12px; border: 0.5px solid #b5d4f4; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
-  a.ds-link:hover { background: #e6f1fb; }
-  .chart-wrap { position: relative; height: 220px; width: 100%; }
-  .file-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 6px; border-bottom: 0.5px solid rgba(0,0,0,0.07); }
+  .ds-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 6px; border-bottom: 0.5px solid rgba(0,0,0,0.07); }
+  .ds-row:last-child { border-bottom: none; }
+  .ds-name { font-size: 13px; font-weight: 500; }
+  .ds-desc { font-size: 11px; color: #888; margin-top: 2px; }
+  .ds-tag  { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 5px; white-space: nowrap; }
+  .tag-csv   { background: #eaf3de; color: #3b6d11; }
+  .tag-web   { background: #e6f1fb; color: #185fa5; }
+  a.ext-link { color: #185fa5; text-decoration: none; font-size: 12px; border: 0.5px solid #b5d4f4; padding: 4px 10px; border-radius: 6px; }
+  a.ext-link:hover { background: #e6f1fb; }
+  .file-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 6px; border-bottom: 0.5px solid rgba(0,0,0,0.07); }
   .file-row:last-child { border-bottom: none; }
   .file-name { font-size: 13px; font-weight: 500; font-family: 'SF Mono', 'Fira Code', monospace; }
   .file-desc { font-size: 11px; color: #888; margin-top: 2px; }
-  .dlv-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
-  .dlv-card { background: #f9f9f8; border: 0.5px solid rgba(0,0,0,0.08); border-radius: 10px; padding: 14px 16px; }
-  .dlv-label { font-size: 10px; font-weight: 500; color: #aaa; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
-  .dlv-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
-  .dlv-sub   { font-size: 12px; color: #888; }
-  .tab-bar { display: flex; gap: 4px; margin-bottom: 18px; }
+  .chart-wrap { position: relative; height: 220px; width: 100%; }
+  .tab-bar { display: flex; gap: 4px; margin-bottom: 18px; flex-wrap: wrap; }
   .tab { padding: 6px 14px; border-radius: 7px; font-size: 13px; cursor: pointer; border: 0.5px solid transparent; transition: all 0.15s; color: #666; }
   .tab:hover { background: #ebebea; }
   .tab.active { background: #fff; border-color: rgba(0,0,0,0.1); color: #1a1a1a; font-weight: 500; }
   .tab-pane { display: none; }
   .tab-pane.active { display: block; }
   .model-input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .model-input-row label { font-size: 12px; color: #666; min-width: 130px; }
-  .model-input-row input { flex: 1; height: 32px; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; padding: 0 10px; font-size: 13px; background: #fff; }
+  .model-input-row label { font-size: 12px; color: #666; min-width: 150px; }
+  .model-input-row input { flex: 1; height: 32px; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; padding: 0 10px; font-size: 13px; }
   .model-input-row input:focus { outline: none; border-color: #378add; }
-  .update-btn { padding: 8px 16px; background: #fff; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 8px; font-size: 13px; cursor: pointer; transition: background 0.15s; }
+  .update-btn { padding: 8px 16px; background: #fff; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 8px; font-size: 13px; cursor: pointer; }
   .update-btn:hover { background: #f0f0ee; }
-  .progress-track { background: #f1efe8; border-radius: 4px; height: 5px; flex: 1; margin: 0 8px; }
-  .progress-fill  { height: 5px; border-radius: 4px; background: #378add; transition: width 0.4s; }
+  .fix-banner { background: #faeeda; border: 0.5px solid #fac775; border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; font-size: 13px; color: #633806; }
+  .fix-banner-blue { background: #e6f1fb; border: 0.5px solid #b5d4f4; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #0e3d69; }
+  .fix-banner strong { color: #412402; }
+  .fix-banner-blue strong { color: #0a2a4a; }
+  .fix-item { padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.07); display: flex; gap: 8px; align-items: flex-start; }
+  .fix-item:last-child { border-bottom: none; }
+  .fix-dot { width: 6px; height: 6px; border-radius: 50%; background: #854f0b; margin-top: 5px; flex-shrink: 0; }
+  .fix-dot-blue { width: 6px; height: 6px; border-radius: 50%; background: #185fa5; margin-top: 5px; flex-shrink: 0; }
+  .dlv-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .dlv-card { background: #f9f9f8; border: 0.5px solid rgba(0,0,0,0.08); border-radius: 10px; padding: 14px 16px; }
+  .dlv-label { font-size: 10px; font-weight: 500; color: #aaa; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
   .section-gap { margin-bottom: 16px; }
-  .legend-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; font-size: 12px; color: #666; }
-  .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+  .cmd { background: #f1f0ee; padding: 2px 7px; border-radius: 4px; font-size: 12px; font-family: 'SF Mono', monospace; color: #444; }
+  .pipeline-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-top: 4px; }
+  .pipe-step { border: 0.5px solid rgba(0,0,0,0.1); border-radius: 10px; padding: 10px 12px; background: #fff; position: relative; }
+  .pipe-step.done-step { border-color: #c0dd97; background: #f4faea; }
+  .pipe-step.active-step { border-color: #85b7eb; background: #f0f7fd; }
+  .pipe-step.new-step { border-color: #c8a84b; background: #fffbf0; }
+  .pipe-num { font-size: 11px; font-weight: 500; color: #aaa; margin-bottom: 5px; }
+  .pipe-title { font-size: 12px; font-weight: 500; margin-bottom: 3px; }
+  .pipe-sub { font-size: 10px; color: #888; }
+  .beta-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 0.5px solid rgba(0,0,0,0.06); font-size: 12px; }
+  .beta-row:last-child { border-bottom: none; }
+  .beta-label { width: 160px; color: #444; flex-shrink: 0; }
+  .beta-bar-wrap { flex: 1; height: 14px; background: #f0f0ee; border-radius: 3px; overflow: hidden; position: relative; }
+  .beta-bar { height: 100%; border-radius: 3px; transition: width 0.3s; }
+  .beta-val { width: 52px; text-align: right; color: #888; font-family: monospace; flex-shrink: 0; }
+  .matchup-select { height: 34px; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 7px; padding: 0 10px; font-size: 13px; background: #fff; }
+  .matchup-select:focus { outline: none; border-color: #378add; }
+  .prob-bar-wrap { width: 100%; height: 32px; border-radius: 8px; overflow: hidden; display: flex; margin: 12px 0 8px; }
+  .prob-bar-t1 { background: #185fa5; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 600; transition: width 0.4s; }
+  .prob-bar-t2 { background: #e6f1fb; display: flex; align-items: center; justify-content: center; color: #185fa5; font-size: 13px; font-weight: 600; transition: width 0.4s; }
+  .insight-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 0.5px solid rgba(0,0,0,0.06); font-size: 12px; }
+  .insight-row:last-child { border-bottom: none; }
+  .favor-pill { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px; }
 </style>
 </head>
 <body>
@@ -79,39 +108,51 @@
     <h1>NBA Playoff Predictor</h1>
     <p class="subtitle">IEOR 142A Final Project &nbsp;·&nbsp; Spring 2026 &nbsp;·&nbsp; Team of Five</p>
   </div>
-  <a class="repo-link" href="https://github.com/fallensnake/IEOR142AProject" target="_blank">GitHub repo ↗</a>
+  <a class="repo-link" href="https://github.com/fallensnake/IEOR142AProject" target="_blank">GitHub ↗</a>
 </header>
 
 <div class="grid-4 section-gap">
   <div class="metric-card">
     <div class="metric-label">Tasks complete</div>
-    <div class="metric-value" id="tasks-done-count">2 / 5</div>
+    <div class="metric-value" id="tasks-done-count">3 / 5</div>
   </div>
   <div class="metric-card">
-    <div class="metric-label">Datasets found</div>
-    <div class="metric-value">5</div>
+    <div class="metric-label">Seasons covered</div>
+    <div class="metric-value">12</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">Playoff series</div>
+    <div class="metric-value">180</div>
   </div>
   <div class="metric-card">
     <div class="metric-label">Models built</div>
     <div class="metric-value">4</div>
   </div>
-  <div class="metric-card">
-    <div class="metric-label">Report pages left</div>
-    <div class="metric-value">4</div>
-  </div>
 </div>
 
 <div class="tab-bar">
-  <div class="tab active" onclick="switchTab('overview')">Overview</div>
-  <div class="tab" onclick="switchTab('models')">Model results</div>
-  <div class="tab" onclick="switchTab('files')">Files</div>
-  <div class="tab" onclick="switchTab('deliverables')">Deliverables</div>
+  <div class="tab active" onclick="switchTab('overview', this)">Overview</div>
+  <div class="tab" onclick="switchTab('data', this)">Data</div>
+  <div class="tab" onclick="switchTab('models', this)">Models</div>
+  <div class="tab" onclick="switchTab('coaching', this)">Coaching Tool 🆕</div>
+  <div class="tab" onclick="switchTab('files', this)">Files</div>
+  <div class="tab" onclick="switchTab('deliverables', this)">Deliverables</div>
+  <div class="tab" onclick="switchTab('brackets', this)">Playoff Brackets</div>
 </div>
 
-<!-- OVERVIEW TAB -->
+<!-- ═══════════════════════════════════════════════════════ OVERVIEW -->
 <div class="tab-pane active" id="tab-overview">
-  <div class="grid-2">
 
+  <div class="fix-banner">
+    <strong>Fix applied (Anthony):</strong> Original CSVs were player-level only — no matchup results.
+    Preprocessing notebook aggregates players → team stats and hardcodes all 180 playoff series results (2012–2024).
+  </div>
+  <div class="fix-banner-blue">
+    <strong>Fix applied (Benjamin):</strong> Stats were computed from full end-of-season averages — a data leak.
+    Fixed by computing each team's features from pre-playoff games only. Also added LR β-value extraction as a coaching tool.
+  </div>
+
+  <div class="grid-2">
     <div class="card">
       <h2>Task tracker <span style="font-size:12px;font-weight:400;color:#aaa">— click to toggle</span></h2>
       <div class="task-row" onclick="toggleTask(this)">
@@ -124,21 +165,21 @@
       <div class="task-row" onclick="toggleTask(this)">
         <div style="display:flex;align-items:center;gap:10px">
           <div class="avatar av-a">A</div>
-          <div><div class="task-name">Data preprocessing &amp; cleaning</div><div class="task-who">Anthony</div></div>
+          <div><div class="task-name">Preprocessing &amp; cleaning</div><div class="task-who">Anthony</div></div>
+        </div>
+        <span class="badge badge-done">Done</span>
+      </div>
+      <div class="task-row" onclick="toggleTask(this)">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar av-b">B</div>
+          <div><div class="task-name">Model formulation &amp; leakage fix</div><div class="task-who">Benjamin</div></div>
         </div>
         <span class="badge badge-done">Done</span>
       </div>
       <div class="task-row" onclick="toggleTask(this)">
         <div style="display:flex;align-items:center;gap:10px">
           <div class="avatar-row"><div class="avatar av-o">O</div><div class="avatar av-b">B</div></div>
-          <div><div class="task-name">Models &amp; data manipulation</div><div class="task-who">Olivia, Benjamin</div></div>
-        </div>
-        <span class="badge badge-active">Active</span>
-      </div>
-      <div class="task-row" onclick="toggleTask(this)">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div class="avatar av-b">B</div>
-          <div><div class="task-name">Formulating the model</div><div class="task-who">Benjamin</div></div>
+          <div><div class="task-name">Full modeling notebook</div><div class="task-who">Olivia, Benjamin</div></div>
         </div>
         <span class="badge badge-active">Active</span>
       </div>
@@ -152,61 +193,240 @@
     </div>
 
     <div class="card">
-      <h2>Datasets</h2>
-      <div class="dataset-row">
-        <div><div class="dataset-name">NBA Games (nathanlauga)</div><div class="dataset-desc">Game-by-game results &amp; box scores, 2004–present</div></div>
-        <a class="ds-link" href="https://www.kaggle.com/datasets/nathanlauga/nba-games" target="_blank">Kaggle ↗</a>
-      </div>
-      <div class="dataset-row">
-        <div><div class="dataset-name">NBA Database (wyattowalsh)</div><div class="dataset-desc">Comprehensive stats, 1946–present, daily updated</div></div>
-        <a class="ds-link" href="https://www.kaggle.com/datasets/wyattowalsh/basketball" target="_blank">Kaggle ↗</a>
-      </div>
-      <div class="dataset-row">
-        <div><div class="dataset-name">NBA Stats 1947–present</div><div class="dataset-desc">Team &amp; player season averages (sumitrodatta)</div></div>
-        <a class="ds-link" href="https://www.kaggle.com/datasets/sumitrodatta/nba-aba-baa-stats" target="_blank">Kaggle ↗</a>
-      </div>
-      <div class="dataset-row">
-        <div><div class="dataset-name">FiveThirtyEight NBA ELO</div><div class="dataset-desc">Pre-computed ELO ratings, every game since 1946</div></div>
-        <a class="ds-link" href="https://raw.githubusercontent.com/fivethirtyeight/data/master/nba-elo/nbaallelo.csv" target="_blank">CSV ↗</a>
-      </div>
-      <div class="dataset-row">
-        <div><div class="dataset-name">Updated NBA ELO (Neil Paine)</div><div class="dataset-desc">Archive updated from 538 version</div></div>
-        <a class="ds-link" href="https://github.com/Neil-Paine-1/NBA-elo" target="_blank">GitHub ↗</a>
+      <h2>Pipeline</h2>
+      <div class="pipeline-grid">
+        <div class="pipe-step done-step">
+          <div class="pipe-num">01</div>
+          <div class="pipe-title">Raw CSVs</div>
+          <div class="pipe-sub">Player stats, 2012–2024</div>
+        </div>
+        <div class="pipe-step done-step">
+          <div class="pipe-num">02</div>
+          <div class="pipe-title">Team agg.</div>
+          <div class="pipe-sub">Players → team averages</div>
+        </div>
+        <div class="pipe-step done-step">
+          <div class="pipe-num">03</div>
+          <div class="pipe-title">Matchups</div>
+          <div class="pipe-sub">180 series, pre-playoff stats</div>
+        </div>
+        <div class="pipe-step active-step">
+          <div class="pipe-num">04</div>
+          <div class="pipe-title">Modeling</div>
+          <div class="pipe-sub">ELO, LR, XGBoost, MLP</div>
+        </div>
+        <div class="pipe-step new-step">
+          <div class="pipe-num">05</div>
+          <div class="pipe-title">β-values</div>
+          <div class="pipe-sub">Coaching insights per matchup</div>
+        </div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- MODELS TAB -->
+<!-- ═══════════════════════════════════════════════════════ DATA -->
+<div class="tab-pane" id="tab-data">
+  <div class="grid-2 section-gap">
+    <div class="card">
+      <h2>Active datasets (your CSVs)</h2>
+      <div class="ds-row">
+        <div><div class="ds-name">Regular_Season.csv</div><div class="ds-desc">Player-level regular season stats, 2012–2024 &nbsp;·&nbsp; 6,259 rows</div></div>
+        <span class="ds-tag tag-csv">CSV</span>
+      </div>
+      <div class="ds-row">
+        <div><div class="ds-name">Playoffs.csv</div><div class="ds-desc">Player-level playoff stats, 2012–2024 &nbsp;·&nbsp; 2,576 rows</div></div>
+        <span class="ds-tag tag-csv">CSV</span>
+      </div>
+      <div class="ds-row">
+        <div><div class="ds-name">ranking.csv</div><div class="ds-desc">Daily team standings — used for end-of-season seeding &nbsp;·&nbsp; 210k rows</div></div>
+        <span class="ds-tag tag-csv">CSV</span>
+      </div>
+      <div class="ds-row">
+        <div><div class="ds-name">nba.csv</div><div class="ds-desc">Combined regular season + playoff player stats &nbsp;·&nbsp; 8,835 rows</div></div>
+        <span class="ds-tag tag-csv">CSV</span>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Supplemental datasets</h2>
+      <div class="ds-row">
+        <div><div class="ds-name">NBA Games (nathanlauga)</div><div class="ds-desc">Game-by-game box scores 2004–present</div></div>
+        <a class="ext-link" href="https://www.kaggle.com/datasets/nathanlauga/nba-games" target="_blank">Kaggle ↗</a>
+      </div>
+      <div class="ds-row">
+        <div><div class="ds-name">FiveThirtyEight NBA ELO</div><div class="ds-desc">Pre-computed ELO ratings every game since 1946</div></div>
+        <a class="ext-link" href="https://raw.githubusercontent.com/fivethirtyeight/data/master/nba-elo/nbaallelo.csv" target="_blank">CSV ↗</a>
+      </div>
+      <div class="ds-row">
+        <div><div class="ds-name">NBA Database (wyattowalsh)</div><div class="ds-desc">Advanced metrics, updated daily, 1946–present</div></div>
+        <a class="ext-link" href="https://www.kaggle.com/datasets/wyattowalsh/basketball" target="_blank">Kaggle ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>All preprocessing fixes applied</h2>
+    <div class="fix-item">
+      <div class="fix-dot"></div>
+      <div><strong>Player → team aggregation (Anthony):</strong> Groups all players on each roster per season and averages their stats to produce one row per team. Required so the model compares two teams head-to-head.</div>
+    </div>
+    <div class="fix-item">
+      <div class="fix-dot"></div>
+      <div><strong>Playoff matchup results table (Anthony):</strong> Hardcoded all 180 NBA playoff series from 2012–2024 (winner, loser, round). The CSVs only showed which players were in the playoffs — not who played who or who won.</div>
+    </div>
+    <div class="fix-item">
+      <div class="fix-dot-blue" style="background:#185fa5"></div>
+      <div><strong>Data leakage fix (Benjamin):</strong> Original stats used full end-of-season averages — a leak, since those numbers include games played after the playoffs started. Benjamin fixed this by computing each team's stats only from games played before the playoff series.</div>
+    </div>
+    <div class="fix-item">
+      <div class="fix-dot"></div>
+      <div><strong>Dataset doubling:</strong> Each series becomes two rows (winner's perspective + loser's perspective) so the model sees balanced examples. Same approach as March ML Mania.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ MODELS -->
 <div class="tab-pane" id="tab-models">
   <div class="grid-2 section-gap">
     <div class="card">
-      <h2>Update model results</h2>
-      <p style="font-size:12px;color:#888;margin-bottom:14px">Paste your Brier scores here after running nba_modeling.ipynb</p>
-      <div class="model-input-row"><label>ELO Baseline</label><input id="in-elo" type="number" step="0.001" value="0.235" min="0" max="0.25"></div>
-      <div class="model-input-row"><label>Logistic Regression</label><input id="in-lr" type="number" step="0.001" value="0.220" min="0" max="0.25"></div>
-      <div class="model-input-row"><label>Neural Network</label><input id="in-nn" type="number" step="0.001" value="0.215" min="0" max="0.25"></div>
-      <div class="model-input-row"><label>XGBoost</label><input id="in-xgb" type="number" step="0.001" value="0.210" min="0" max="0.25"></div>
-      <button class="update-btn" onclick="updateCharts()" style="margin-top:8px">Update charts</button>
+      <h2>Update results <span style="font-size:12px;font-weight:400;color:#aaa">— paste scores after running notebook</span></h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px;">
+        <div style="font-size:11px;font-weight:500;color:#aaa;padding-bottom:4px;">Brier Score ↓</div>
+        <div style="font-size:11px;font-weight:500;color:#aaa;padding-bottom:4px;">AUC ↑</div>
+        <label style="font-size:12px;color:#666;line-height:34px;">ELO Baseline</label>
+        <label style="font-size:12px;color:#666;line-height:34px;"></label>
+        <input id="in-elo-brier" type="number" step="0.001" value="0.235" min="0" max="0.25" style="height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:0 10px;font-size:13px;margin-bottom:8px;">
+        <input id="in-elo-auc" type="number" step="0.001" value="0.58" min="0.5" max="1" style="height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:0 10px;font-size:13px;margin-bottom:8px;">
+
+        <label style="font-size:12px;color:#666;line-height:34px;">Logistic Reg.</label>
+        <label style="font-size:12px;color:#666;line-height:34px;"></label>
+        <input id="in-lr-brier" type="number" step="0.001" value="0.220" min="0" max="0.25" style="height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:0 10px;font-size:13px;margin-bottom:8px;">
+        <input id="in-lr-auc" type="number" step="0.001" value="0.64" min="0.5" max="1" style="height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:0 10px;font-size:13px;margin-bottom:8px;">
+
+        <label style="font-size:12px;color:#666;line-height:34px;">XGBoost</label>
+        <label style="font-size:12px;color:#666;line-height:34px;"></label>
+        <input id="in-xgb-brier" type="number" step="0.001" value="0.210" min="0" max="0.25" style="height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:0 10px;font-size:13px;margin-bottom:8px;">
+        <input id="in-xgb-auc" type="number" step="0.001" value="0.67" min="0.5" max="1" style="height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:0 10px;font-size:13px;margin-bottom:8px;">
+
+        <label style="font-size:12px;color:#666;line-height:34px;">Neural Net</label>
+        <label style="font-size:12px;color:#666;line-height:34px;"></label>
+        <input id="in-nn-brier" type="number" step="0.001" value="0.215" min="0" max="0.25" style="height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:0 10px;font-size:13px;margin-bottom:8px;">
+        <input id="in-nn-auc" type="number" step="0.001" value="0.65" min="0.5" max="1" style="height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:0 10px;font-size:13px;margin-bottom:8px;">
+      </div>
+      <button class="update-btn" onclick="updateCharts()" style="margin-top:4px">Update charts</button>
     </div>
-    <div class="card">
-      <h2>Brier score comparison</h2>
-      <p style="font-size:11px;color:#888;margin-bottom:10px">Lower is better &nbsp;·&nbsp; Random = 0.250</p>
-      <div class="chart-wrap"><canvas id="brierChart"></canvas></div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="card" style="flex:1">
+        <h2>Brier score <span style="font-size:11px;font-weight:400;color:#888">lower = better · random = 0.250</span></h2>
+        <div class="chart-wrap" style="height:160px"><canvas id="brierChart"></canvas></div>
+      </div>
+      <div class="card" style="flex:1">
+        <h2>AUC <span style="font-size:11px;font-weight:400;color:#888">higher = better · random = 0.500</span></h2>
+        <div class="chart-wrap" style="height:160px"><canvas id="aucChart"></canvas></div>
+      </div>
     </div>
   </div>
-  <div class="card">
-    <h2>Feature importance — XGBoost</h2>
-    <p style="font-size:11px;color:#888;margin-bottom:12px">Expected ranking — update after running the modeling notebook</p>
-    <div style="position:relative;height:260px;width:100%"><canvas id="featChart"></canvas></div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h2>XGBoost — feature importance</h2>
+      <p style="font-size:11px;color:#888;margin-bottom:12px">Expected ranking — update after running nba_modeling.ipynb</p>
+      <div style="position:relative;height:240px;width:100%"><canvas id="featChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Model specs (Benjamin)</h2>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+        <div style="border:0.5px solid rgba(0,0,0,0.08);border-radius:8px;overflow:hidden;">
+          <div style="background:#8a9bb0;color:#fff;font-size:11px;font-weight:600;padding:5px 10px;">ELO Baseline</div>
+          <div style="padding:8px 10px;font-size:12px;color:#444;">W_PCT diff → ELO score → win prob via 1/(1+10^(−Δ/400))</div>
+        </div>
+        <div style="border:0.5px solid rgba(0,0,0,0.08);border-radius:8px;overflow:hidden;">
+          <div style="background:#1d7a8a;color:#fff;font-size:11px;font-weight:600;padding:5px 10px;">Logistic Regression</div>
+          <div style="padding:8px 10px;font-size:12px;color:#444;">max_iter=1000, C=1.0, StandardScaler — + β-value export for coaching</div>
+        </div>
+        <div style="border:0.5px solid rgba(0,0,0,0.08);border-radius:8px;overflow:hidden;">
+          <div style="background:#c8a84b;color:#fff;font-size:11px;font-weight:600;padding:5px 10px;">XGBoost</div>
+          <div style="padding:8px 10px;font-size:12px;color:#444;">n_estimators=200, max_depth=4, lr=0.05, subsample=0.8</div>
+        </div>
+        <div style="border:0.5px solid rgba(0,0,0,0.08);border-radius:8px;overflow:hidden;">
+          <div style="background:#0d1b2a;color:#fff;font-size:11px;font-weight:600;padding:5px 10px;">Neural Net (MLP)</div>
+          <div style="padding:8px 10px;font-size:12px;color:#444;">hidden_layers=(64,32), relu, max_iter=300, early_stopping=True</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- FILES TAB -->
-<div class="tab-pane" id="tab-files">
+<!-- ═══════════════════════════════════════════════════════ COACHING TOOL -->
+<div class="tab-pane" id="tab-coaching">
+  <div class="fix-banner-blue" style="margin-bottom:16px">
+    <strong>Benjamin's addition:</strong> The Logistic Regression model outputs β-values (coefficients) for each feature.
+    Given any two teams, coaches can see exactly which factors most favor their side — and where they need to improve training.
+  </div>
+
+  <div class="grid-2 section-gap">
+    <div class="card">
+      <h2>Matchup breakdown</h2>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:11px;color:#888">Team 1</label>
+          <select id="sel-t1" class="matchup-select" onchange="runMatchup()">
+            <option value="DEN">DEN — Denver Nuggets</option>
+            <option value="BOS">BOS — Boston Celtics</option>
+            <option value="MIA">MIA — Miami Heat</option>
+            <option value="GSW">GSW — Golden State Warriors</option>
+            <option value="LAL">LAL — Los Angeles Lakers</option>
+            <option value="MIL">MIL — Milwaukee Bucks</option>
+            <option value="PHX">PHX — Phoenix Suns</option>
+            <option value="DAL">DAL — Dallas Mavericks</option>
+          </select>
+        </div>
+        <div style="font-size:20px;color:#ccc;padding-top:18px;font-weight:300">vs</div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:11px;color:#888">Team 2</label>
+          <select id="sel-t2" class="matchup-select" onchange="runMatchup()">
+            <option value="MIA">MIA — Miami Heat</option>
+            <option value="DEN">DEN — Denver Nuggets</option>
+            <option value="BOS">BOS — Boston Celtics</option>
+            <option value="GSW">GSW — Golden State Warriors</option>
+            <option value="LAL">LAL — Los Angeles Lakers</option>
+            <option value="MIL">MIL — Milwaukee Bucks</option>
+            <option value="PHX">PHX — Phoenix Suns</option>
+            <option value="DAL">DAL — Dallas Mavericks</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="prob-display">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:4px;">
+          <span id="lbl-t1">DEN</span>
+          <span id="lbl-t2">MIA</span>
+        </div>
+        <div class="prob-bar-wrap">
+          <div class="prob-bar-t1" id="bar-t1" style="width:62%">62%</div>
+          <div class="prob-bar-t2" id="bar-t2" style="width:38%">38%</div>
+        </div>
+        <p style="font-size:11px;color:#aaa;text-align:center;">Win probability (illustrative — update with real β-values after running nba_modeling.ipynb)</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>β-value chart — overall LR coefficients</h2>
+      <p style="font-size:11px;color:#888;margin-bottom:10px">Top features by absolute coefficient weight · + favors T1 · – favors T2</p>
+      <div style="position:relative;height:260px;"><canvas id="betaChart"></canvas></div>
+    </div>
+  </div>
+
   <div class="card">
-    <h2>Repository &nbsp;<span style="font-size:12px;font-weight:400;color:#aaa">github.com/fallensnake/IEOR142AProject</span></h2>
+    <h2>Per-matchup coaching factors <span style="font-size:12px;font-weight:400;color:#888">— which stats give each team an edge</span></h2>
+    <div id="coaching-factors"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ FILES -->
+<div class="tab-pane" id="tab-files">
+  <div class="card section-gap">
+    <h2>Repository &nbsp;<span style="font-size:12px;font-weight:400;color:#888">github.com/fallensnake/IEOR142AProject</span></h2>
     <div class="file-row">
       <div><div class="file-name">Marchmlmania.ipynb</div><div class="file-desc">Reference project — NCAA tournament predictor</div></div>
       <span class="badge badge-done">Committed</span>
@@ -216,112 +436,273 @@
       <span class="badge badge-done">Committed</span>
     </div>
     <div class="file-row">
-      <div><div class="file-name">nba_preprocessing.ipynb</div><div class="file-desc">Data collection, cleaning, feature engineering — Anthony</div></div>
+      <div>
+        <div class="file-name">nba_preprocessing.ipynb</div>
+        <div class="file-desc">Team aggregation, playoff matchup results, pre-playoff stat fix — Anthony &nbsp;<span style="color:#854f0b;font-weight:500">✦ updated</span></div>
+      </div>
+      <span class="badge badge-fixed">Updated</span>
+    </div>
+    <div class="file-row">
+      <div>
+        <div class="file-name">basic_nba_formulation.ipynb</div>
+        <div class="file-desc">Benjamin's model formulation — LR, XGBoost, MLP + data leakage fix + β-value extraction</div>
+      </div>
       <span class="badge badge-done">Committed</span>
     </div>
     <div class="file-row">
-      <div><div class="file-name">nba_modeling.ipynb</div><div class="file-desc">ELO, logistic regression, XGBoost, neural network — Olivia, Benjamin</div></div>
-      <span class="badge badge-pending">To commit</span>
+      <div>
+        <div class="file-name">nba_modeling.ipynb</div>
+        <div class="file-desc">Full walk-forward CV pipeline incorporating Benjamin's models — Olivia, Benjamin &nbsp;<span style="color:#185fa5;font-weight:500">✦ new</span></div>
+      </div>
+      <span class="badge badge-active">To commit</span>
     </div>
     <div class="file-row">
-      <div><div class="file-name">nba_dashboard.html</div><div class="file-desc">This dashboard</div></div>
-      <span class="badge badge-pending">To commit</span>
+      <div><div class="file-name">nba_dashboard.html</div><div class="file-desc">This dashboard &nbsp;<span style="color:#185fa5;font-weight:500">✦ updated</span></div></div>
+      <span class="badge badge-active">To commit</span>
+    </div>
+    <div class="file-row">
+      <div><div class="file-name">NBA_Playoff_Predictor.pptx</div><div class="file-desc">5-minute presentation slides</div></div>
+      <span class="badge badge-active">To commit</span>
     </div>
   </div>
-  <div style="margin-top:14px;padding:14px 18px;background:#f9f9f8;border-radius:10px;font-size:13px;color:#666;border:0.5px solid rgba(0,0,0,0.08)">
-    <strong style="color:#1a1a1a">To push a new file:</strong> &nbsp;
-    <code style="background:#ebebea;padding:2px 7px;border-radius:4px;font-size:12px">git add &lt;filename&gt;</code> &nbsp;→&nbsp;
-    <code style="background:#ebebea;padding:2px 7px;border-radius:4px;font-size:12px">git commit -m "message"</code> &nbsp;→&nbsp;
-    <code style="background:#ebebea;padding:2px 7px;border-radius:4px;font-size:12px">git push</code>
+  <div style="padding:14px 18px;background:#f9f9f8;border-radius:10px;font-size:13px;color:#666;border:0.5px solid rgba(0,0,0,0.08)">
+    <strong style="color:#1a1a1a">To push updates:</strong> &nbsp;
+    <span class="cmd">git add &lt;filename&gt;</span> &nbsp;→&nbsp;
+    <span class="cmd">git commit -m "message"</span> &nbsp;→&nbsp;
+    <span class="cmd">git push</span>
   </div>
 </div>
 
-<!-- DELIVERABLES TAB -->
+<!-- ═══════════════════════════════════════════════════════ DELIVERABLES -->
 <div class="tab-pane" id="tab-deliverables">
   <div class="dlv-grid section-gap">
     <div class="dlv-card">
       <div class="dlv-label">Proposal</div>
-      <div class="dlv-title">One-page proposal</div>
-      <div class="dlv-sub">Problem, data, techniques, impact/consequences</div>
-      <div style="margin-top:10px"><span class="badge badge-done">Done ✓</span></div>
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px">One-page proposal</div>
+      <div style="font-size:12px;color:#888;margin-bottom:10px">Problem, data, techniques, impact</div>
+      <span class="badge badge-done">Done ✓</span>
     </div>
     <div class="dlv-card">
       <div class="dlv-label">Final report</div>
-      <div class="dlv-title">4-page writeup</div>
-      <div class="dlv-sub">Due on final exam day — all team</div>
-      <div style="margin-top:10px"><span class="badge badge-pending">Pending</span></div>
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px">4-page writeup</div>
+      <div style="font-size:12px;color:#888;margin-bottom:10px">Due on final exam day — all team</div>
+      <span class="badge badge-pending">Pending</span>
     </div>
     <div class="dlv-card">
       <div class="dlv-label">Presentation</div>
-      <div class="dlv-title">5-minute slides</div>
-      <div class="dlv-sub">Last week of class / RRR week — Eddie</div>
-      <div style="margin-top:10px"><span class="badge badge-pending">Pending</span></div>
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px">5-minute slides</div>
+      <div style="font-size:12px;color:#888;margin-bottom:10px">Last week of class — Eddie</div>
+      <span class="badge badge-active">In progress</span>
     </div>
   </div>
   <div class="card">
     <h2>Report outline (4 pages)</h2>
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:4px">
       <div style="padding:12px;background:#f9f9f8;border-radius:8px">
-        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 1 — Introduction</div>
-        <div style="font-size:12px;color:#888">Problem statement, motivation, related work (~0.5 pages)</div>
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 1 — Introduction (~0.5 pages)</div>
+        <div style="font-size:12px;color:#888">Problem statement, motivation, related work</div>
       </div>
       <div style="padding:12px;background:#f9f9f8;border-radius:8px">
-        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 2 — Data</div>
-        <div style="font-size:12px;color:#888">Sources, cleaning process, feature engineering (~0.75 pages)</div>
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 2 — Data (~0.75 pages)</div>
+        <div style="font-size:12px;color:#888">Sources, player→team aggregation, data leakage fix, matchup construction</div>
       </div>
       <div style="padding:12px;background:#f9f9f8;border-radius:8px">
-        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 3 — Methods &amp; Results</div>
-        <div style="font-size:12px;color:#888">Models, validation, Brier scores, feature importance (~1.5 pages)</div>
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 3 — Methods &amp; Results (~1.5 pages)</div>
+        <div style="font-size:12px;color:#888">4 models, walk-forward CV, Brier/AUC, LR β-values, feature importance</div>
       </div>
       <div style="padding:12px;background:#f9f9f8;border-radius:8px">
-        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 4 — Discussion</div>
-        <div style="font-size:12px;color:#888">Conclusions, limitations, ethical considerations (~0.75 pages + appendices)</div>
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Section 4 — Discussion (~0.75 pages)</div>
+        <div style="font-size:12px;color:#888">Coaching tool implications, limitations, gambling ethics, appendices</div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════ BRACKETS -->
+<div class="tab-pane" id="tab-brackets">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap">
+    <label style="font-size:13px;color:#666;font-weight:500">Season:</label>
+    <div id="year-buttons" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+  </div>
+  <div id="bracket-container"></div>
+</div>
+
 <script>
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
+// ─── Playoff data ────────────────────────────────────────────────────────────
+const PLAYOFFS = [
+  [2012,1,'MIA','MIL'],[2012,1,'CHI','BKN'],[2012,1,'IND','ATL'],[2012,1,'NYK','BOS'],
+  [2012,1,'OKC','HOU'],[2012,1,'SAS','LAL'],[2012,1,'GSW','DEN'],[2012,1,'MEM','LAC'],
+  [2012,2,'MIA','CHI'],[2012,2,'IND','NYK'],[2012,2,'SAS','GSW'],[2012,2,'MEM','OKC'],
+  [2012,3,'MIA','IND'],[2012,3,'SAS','MEM'],[2012,4,'MIA','SAS'],
+  [2013,1,'MIA','CHA'],[2013,1,'BKN','TOR'],[2013,1,'CHI','WAS'],[2013,1,'IND','ATL'],
+  [2013,1,'SAS','DAL'],[2013,1,'OKC','MEM'],[2013,1,'LAC','GSW'],[2013,1,'POR','HOU'],
+  [2013,2,'MIA','BKN'],[2013,2,'IND','WAS'],[2013,2,'SAS','POR'],[2013,2,'OKC','LAC'],
+  [2013,3,'MIA','IND'],[2013,3,'SAS','OKC'],[2013,4,'SAS','MIA'],
+  [2014,1,'CLE','BOS'],[2014,1,'CHI','MIL'],[2014,1,'ATL','BKN'],[2014,1,'WAS','TOR'],
+  [2014,1,'GSW','NOP'],[2014,1,'MEM','POR'],[2014,1,'HOU','DAL'],[2014,1,'LAC','SAS'],
+  [2014,2,'CLE','CHI'],[2014,2,'ATL','WAS'],[2014,2,'GSW','MEM'],[2014,2,'HOU','LAC'],
+  [2014,3,'CLE','ATL'],[2014,3,'GSW','HOU'],[2014,4,'GSW','CLE'],
+  [2015,1,'CLE','DET'],[2015,1,'ATL','BOS'],[2015,1,'MIA','CHA'],[2015,1,'TOR','IND'],
+  [2015,1,'GSW','HOU'],[2015,1,'SAS','MEM'],[2015,1,'OKC','DAL'],[2015,1,'POR','LAC'],
+  [2015,2,'CLE','ATL'],[2015,2,'TOR','MIA'],[2015,2,'GSW','POR'],[2015,2,'OKC','SAS'],
+  [2015,3,'CLE','TOR'],[2015,3,'GSW','OKC'],[2015,4,'CLE','GSW'],
+  [2016,1,'BOS','CHI'],[2016,1,'WAS','ATL'],[2016,1,'TOR','MIL'],[2016,1,'CLE','IND'],
+  [2016,1,'GSW','POR'],[2016,1,'SAS','MEM'],[2016,1,'HOU','OKC'],[2016,1,'UTA','LAC'],
+  [2016,2,'BOS','WAS'],[2016,2,'CLE','TOR'],[2016,2,'GSW','UTA'],[2016,2,'SAS','HOU'],
+  [2016,3,'CLE','BOS'],[2016,3,'GSW','SAS'],[2016,4,'GSW','CLE'],
+  [2017,1,'MIL','BOS'],[2017,1,'PHI','MIA'],[2017,1,'CLE','IND'],[2017,1,'TOR','WAS'],
+  [2017,1,'GSW','SAS'],[2017,1,'HOU','MIN'],[2017,1,'POR','NOP'],[2017,1,'OKC','UTA'],
+  [2017,2,'BOS','PHI'],[2017,2,'CLE','TOR'],[2017,2,'GSW','NOP'],[2017,2,'HOU','UTA'],
+  [2017,3,'CLE','BOS'],[2017,3,'GSW','HOU'],[2017,4,'GSW','CLE'],
+  [2018,1,'MIL','DET'],[2018,1,'BOS','IND'],[2018,1,'PHI','BKN'],[2018,1,'TOR','ORL'],
+  [2018,1,'GSW','LAC'],[2018,1,'HOU','UTA'],[2018,1,'POR','OKC'],[2018,1,'DEN','SAS'],
+  [2018,2,'MIL','BOS'],[2018,2,'TOR','PHI'],[2018,2,'GSW','HOU'],[2018,2,'POR','DEN'],
+  [2018,3,'GSW','POR'],[2018,3,'TOR','MIL'],[2018,4,'TOR','GSW'],
+  [2019,1,'LAL','POR'],[2019,1,'HOU','OKC'],[2019,1,'LAC','DAL'],[2019,1,'DEN','UTA'],
+  [2019,1,'MIL','ORL'],[2019,1,'MIA','IND'],[2019,1,'BOS','PHI'],[2019,1,'TOR','BKN'],
+  [2019,2,'LAL','HOU'],[2019,2,'DEN','LAC'],[2019,2,'MIA','MIL'],[2019,2,'BOS','TOR'],
+  [2019,3,'LAL','DEN'],[2019,3,'MIA','BOS'],[2019,4,'LAL','MIA'],
+  [2020,1,'PHI','WAS'],[2020,1,'MIL','MIA'],[2020,1,'NYK','ATL'],[2020,1,'BKN','BOS'],
+  [2020,1,'UTA','MEM'],[2020,1,'DEN','POR'],[2020,1,'LAC','DAL'],[2020,1,'PHX','LAL'],
+  [2020,2,'ATL','PHI'],[2020,2,'MIL','BKN'],[2020,2,'PHX','DEN'],[2020,2,'LAC','UTA'],
+  [2020,3,'MIL','ATL'],[2020,3,'PHX','LAC'],[2020,4,'MIL','PHX'],
+  [2021,1,'MIA','ATL'],[2021,1,'PHI','TOR'],[2021,1,'MIL','CHI'],[2021,1,'BOS','BKN'],
+  [2021,1,'GSW','DEN'],[2021,1,'MEM','MIN'],[2021,1,'PHX','NOP'],[2021,1,'DAL','UTA'],
+  [2021,2,'MIA','PHI'],[2021,2,'BOS','MIL'],[2021,2,'GSW','MEM'],[2021,2,'DAL','PHX'],
+  [2021,3,'BOS','MIA'],[2021,3,'GSW','DAL'],[2021,4,'GSW','BOS'],
+  [2022,1,'MIA','MIL'],[2022,1,'NYK','CLE'],[2022,1,'BOS','ATL'],[2022,1,'PHI','BKN'],
+  [2022,1,'DEN','MIN'],[2022,1,'GSW','SAC'],[2022,1,'LAL','MEM'],[2022,1,'PHX','LAC'],
+  [2022,2,'MIA','NYK'],[2022,2,'BOS','PHI'],[2022,2,'DEN','PHX'],[2022,2,'LAL','GSW'],
+  [2022,3,'MIA','BOS'],[2022,3,'DEN','LAL'],[2022,4,'DEN','MIA'],
+  [2023,1,'BOS','MIA'],[2023,1,'CLE','ORL'],[2023,1,'NYK','PHI'],[2023,1,'MIL','IND'],
+  [2023,1,'OKC','NOP'],[2023,1,'DEN','LAL'],[2023,1,'MIN','PHX'],[2023,1,'DAL','LAC'],
+  [2023,2,'BOS','CLE'],[2023,2,'IND','NYK'],[2023,2,'DEN','MIN'],[2023,2,'DAL','OKC'],
+  [2023,3,'BOS','IND'],[2023,3,'DAL','MIN'],[2023,4,'BOS','DAL'],
+];
+
+const ROUND_NAMES = {1:'First Round',2:'Conf Semifinals',3:'Conf Finals',4:'NBA Finals'};
+const years = [...new Set(PLAYOFFS.map(d=>d[0]))].sort();
+let activeYear = years[years.length-1];
+
+// ─── Coaching tool data (illustrative β-values — replace after running notebook) ─
+const BETA_FEATURES = [
+  { label: 'Win % diff',       beta:  0.82, color: '#1d7a8a' },
+  { label: 'Net rating diff',  beta:  0.71, color: '#1d7a8a' },
+  { label: 'ELO diff',         beta:  0.68, color: '#1d7a8a' },
+  { label: 'Road win % diff',  beta:  0.54, color: '#1d7a8a' },
+  { label: 'PTS diff',         beta:  0.41, color: '#1d7a8a' },
+  { label: 'FG% diff',         beta:  0.33, color: '#1d7a8a' },
+  { label: 'AST diff',         beta:  0.22, color: '#1d7a8a' },
+  { label: 'TOV diff',         beta: -0.38, color: '#c62828' },
+  { label: 'PF diff',          beta: -0.19, color: '#c62828' },
+  { label: 'Conf seed diff',   beta: -0.15, color: '#c62828' },
+];
+
+// Illustrative per-matchup stats (each team's relative strength on each feature)
+const TEAM_EDGES = {
+  DEN: { 'Win % diff':1, 'Net rating diff':1, 'ELO diff':1,  'Road win % diff':1, 'PTS diff':1,  'FG% diff':1,  'AST diff':-1, 'TOV diff':1,  'PF diff':-1, 'Conf seed diff':-1 },
+  BOS: { 'Win % diff':1, 'Net rating diff':1, 'ELO diff':1,  'Road win % diff':1, 'PTS diff':1,  'FG% diff':1,  'AST diff':1,  'TOV diff':1,  'PF diff': 1, 'Conf seed diff': 1 },
+  MIA: { 'Win % diff':-1,'Net rating diff':-1,'ELO diff':-1, 'Road win % diff':1, 'PTS diff':-1, 'FG% diff':-1, 'AST diff':1,  'TOV diff':-1, 'PF diff': 1, 'Conf seed diff':-1 },
+  GSW: { 'Win % diff':1, 'Net rating diff':1, 'ELO diff':1,  'Road win % diff':1, 'PTS diff':1,  'FG% diff':1,  'AST diff':1,  'TOV diff':1,  'PF diff':-1, 'Conf seed diff': 1 },
+  LAL: { 'Win % diff':0, 'Net rating diff':0, 'ELO diff':-1, 'Road win % diff':-1,'PTS diff':0,  'FG% diff':0,  'AST diff':-1, 'TOV diff':-1, 'PF diff':-1, 'Conf seed diff': 0 },
+  MIL: { 'Win % diff':1, 'Net rating diff':1, 'ELO diff':1,  'Road win % diff':0, 'PTS diff':0,  'FG% diff':0,  'AST diff':0,  'TOV diff':0,  'PF diff': 0, 'Conf seed diff': 1 },
+  PHX: { 'Win % diff':0, 'Net rating diff':0, 'ELO diff':0,  'Road win % diff':0, 'PTS diff':1,  'FG% diff':1,  'AST diff':1,  'TOV diff':0,  'PF diff': 0, 'Conf seed diff': 0 },
+  DAL: { 'Win % diff':0, 'Net rating diff':0, 'ELO diff':0,  'Road win % diff':-1,'PTS diff':0,  'FG% diff':0,  'AST diff':0,  'TOV diff':0,  'PF diff': 0, 'Conf seed diff': 0 },
+};
+
+function getWinProb(t1, t2) {
+  let score = 0;
+  let maxScore = 0;
+  BETA_FEATURES.forEach(f => {
+    const edge = (TEAM_EDGES[t1]?.[f.label] ?? 0) - (TEAM_EDGES[t2]?.[f.label] ?? 0);
+    score += edge * f.beta;
+    maxScore += Math.abs(f.beta) * 2;
+  });
+  return Math.max(0.3, Math.min(0.7, 0.5 + score / maxScore * 0.5));
 }
 
-const taskCycle = ['badge-done', 'badge-active', 'badge-pending'];
-const taskLabels = ['Done', 'Active', 'Pending'];
-function toggleTask(row) {
-  const badge = row.querySelector('.badge');
-  const cur = taskCycle.findIndex(c => badge.classList.contains(c));
-  const next = (cur + 1) % 3;
-  taskCycle.forEach(c => badge.classList.remove(c));
-  badge.classList.add(taskCycle[next]);
-  badge.textContent = taskLabels[next];
-  updateTaskCount();
-}
-function updateTaskCount() {
-  const done = document.querySelectorAll('.badge-done').length;
-  const total = document.querySelectorAll('.task-row').length;
-  document.getElementById('tasks-done-count').textContent = done + ' / ' + total;
+function runMatchup() {
+  const t1 = document.getElementById('sel-t1').value;
+  const t2 = document.getElementById('sel-t2').value;
+  const p = getWinProb(t1, t2);
+  const pct1 = Math.round(p * 100);
+  const pct2 = 100 - pct1;
+
+  document.getElementById('lbl-t1').textContent = t1;
+  document.getElementById('lbl-t2').textContent = t2;
+  document.getElementById('bar-t1').style.width = pct1 + '%';
+  document.getElementById('bar-t1').textContent = pct1 + '%';
+  document.getElementById('bar-t2').style.width = pct2 + '%';
+  document.getElementById('bar-t2').textContent = pct2 + '%';
+
+  // Coaching factors
+  const container = document.getElementById('coaching-factors');
+  container.innerHTML = '';
+  const sorted = BETA_FEATURES
+    .map(f => {
+      const edge = (TEAM_EDGES[t1]?.[f.label] ?? 0) - (TEAM_EDGES[t2]?.[f.label] ?? 0);
+      const contribution = edge * f.beta;
+      return { ...f, edge, contribution };
+    })
+    .filter(f => f.edge !== 0)
+    .sort((a,b) => Math.abs(b.contribution) - Math.abs(a.contribution));
+
+  if (sorted.length === 0) {
+    container.innerHTML = '<p style="color:#aaa;font-size:12px;padding:12px 0;">Select different teams to see matchup factors.</p>';
+    return;
+  }
+
+  sorted.forEach(f => {
+    const favors = f.contribution > 0 ? t1 : t2;
+    const favorColor = f.contribution > 0 ? '#185fa5' : '#993556';
+    const row = document.createElement('div');
+    row.className = 'insight-row';
+    row.innerHTML = `
+      <span style="font-size:13px;color:#444;min-width:160px">${f.label}</span>
+      <div style="flex:1;height:8px;background:#f0f0ee;border-radius:4px;margin:0 12px;overflow:hidden">
+        <div style="height:100%;width:${Math.min(100, Math.abs(f.contribution) * 80)}%;background:${favorColor};border-radius:4px;"></div>
+      </div>
+      <span class="favor-pill" style="background:${favorColor}20;color:${favorColor};min-width:40px;text-align:center">${favors}</span>
+    `;
+    container.appendChild(row);
+  });
 }
 
-let brierChart, featChart;
+// ─── Charts ──────────────────────────────────────────────────────────────────
+let brierChart, aucChart, featChart, betaChart;
 
-function buildBrierChart(data) {
-  const colors = ['#b4b2a9', '#85b7eb', '#97c459', '#378add'];
+function buildBrierChart(vals) {
   if (brierChart) brierChart.destroy();
   brierChart = new Chart(document.getElementById('brierChart'), {
     type: 'bar',
     data: {
-      labels: ['ELO Baseline', 'Logistic Reg.', 'Neural Net', 'XGBoost'],
-      datasets: [{ data, backgroundColor: colors, borderRadius: 6, borderWidth: 0 }]
+      labels: ['ELO','LR','XGBoost','MLP'],
+      datasets: [{ data: vals, backgroundColor: ['#b4b2a9','#1d7a8a','#c8a84b','#0d1b2a'], borderRadius: 5, borderWidth: 0 }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' Brier: ' + Number(c.raw).toFixed(3) } } },
       scales: {
-        y: { min: 0.19, max: 0.26, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 11 }, callback: v => v.toFixed(2) } },
+        y: { min: 0.19, max: 0.26, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 10 }, callback: v => v.toFixed(2) } },
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+function buildAucChart(vals) {
+  if (aucChart) aucChart.destroy();
+  aucChart = new Chart(document.getElementById('aucChart'), {
+    type: 'bar',
+    data: {
+      labels: ['ELO','LR','XGBoost','MLP'],
+      datasets: [{ data: vals, backgroundColor: ['#b4b2a9','#1d7a8a','#c8a84b','#0d1b2a'], borderRadius: 5, borderWidth: 0 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' AUC: ' + Number(c.raw).toFixed(3) } } },
+      scales: {
+        y: { min: 0.50, max: 0.80, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 10 }, callback: v => v.toFixed(2) } },
         x: { grid: { display: false }, ticks: { font: { size: 11 } } }
       }
     }
@@ -333,14 +714,38 @@ function buildFeatChart() {
   featChart = new Chart(document.getElementById('featChart'), {
     type: 'bar',
     data: {
-      labels: ['Assists diff', 'Rebounds diff', 'Shooting % diff', 'Away win % diff', 'Recent form', 'Win % diff', 'Net rating diff', 'ELO diff'],
-      datasets: [{ data: [0.04, 0.05, 0.07, 0.08, 0.10, 0.14, 0.18, 0.34], backgroundColor: '#378add', borderRadius: 4, borderWidth: 0 }]
+      labels: ['AST diff','REB diff','FG% diff','Road win%','Recent form','Win% diff','Net rating','ELO diff'],
+      datasets: [{ data: [0.04,0.05,0.07,0.08,0.10,0.14,0.18,0.34], backgroundColor: '#0d1b2a', borderRadius: 4, borderWidth: 0 }]
     },
     options: {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 11 }, callback: v => (v * 100).toFixed(0) + '%' } },
+        x: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 10 }, callback: v => (v*100).toFixed(0)+'%' } },
+        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+function buildBetaChart() {
+  if (betaChart) betaChart.destroy();
+  const sorted = [...BETA_FEATURES].sort((a,b) => a.beta - b.beta);
+  betaChart = new Chart(document.getElementById('betaChart'), {
+    type: 'bar',
+    data: {
+      labels: sorted.map(f => f.label),
+      datasets: [{
+        data: sorted.map(f => f.beta),
+        backgroundColor: sorted.map(f => f.beta > 0 ? '#1d7a8a' : '#c62828'),
+        borderRadius: 4, borderWidth: 0
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 10 } } },
         y: { grid: { display: false }, ticks: { font: { size: 11 } } }
       }
     }
@@ -348,17 +753,112 @@ function buildFeatChart() {
 }
 
 function updateCharts() {
-  const data = [
-    parseFloat(document.getElementById('in-elo').value),
-    parseFloat(document.getElementById('in-lr').value),
-    parseFloat(document.getElementById('in-nn').value),
-    parseFloat(document.getElementById('in-xgb').value),
-  ];
-  buildBrierChart(data);
+  buildBrierChart([
+    parseFloat(document.getElementById('in-elo-brier').value),
+    parseFloat(document.getElementById('in-lr-brier').value),
+    parseFloat(document.getElementById('in-xgb-brier').value),
+    parseFloat(document.getElementById('in-nn-brier').value),
+  ]);
+  buildAucChart([
+    parseFloat(document.getElementById('in-elo-auc').value),
+    parseFloat(document.getElementById('in-lr-auc').value),
+    parseFloat(document.getElementById('in-xgb-auc').value),
+    parseFloat(document.getElementById('in-nn-auc').value),
+  ]);
 }
 
-buildBrierChart([0.235, 0.220, 0.215, 0.210]);
+// ─── Tab switching ────────────────────────────────────────────────────────────
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  el.classList.add('active');
+}
+
+// ─── Task tracker ─────────────────────────────────────────────────────────────
+const taskCycle  = ['badge-done','badge-active','badge-pending'];
+const taskLabels = ['Done','Active','Pending'];
+function toggleTask(row) {
+  const badge = row.querySelector('.badge');
+  const cur   = taskCycle.findIndex(c => badge.classList.contains(c));
+  const next  = (cur + 1) % 3;
+  taskCycle.forEach(c => badge.classList.remove(c));
+  badge.classList.add(taskCycle[next]);
+  badge.textContent = taskLabels[next];
+  updateTaskCount();
+}
+function updateTaskCount() {
+  const done  = document.querySelectorAll('#tab-overview .badge-done').length;
+  const total = document.querySelectorAll('#tab-overview .task-row').length;
+  document.getElementById('tasks-done-count').textContent = done + ' / ' + total;
+}
+
+// ─── Brackets ─────────────────────────────────────────────────────────────────
+function buildYearButtons() {
+  const container = document.getElementById('year-buttons');
+  years.forEach(y => {
+    const btn = document.createElement('button');
+    btn.textContent = y + '–' + String(y+1).slice(2);
+    btn.style.cssText = 'padding:5px 11px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.15);background:#fff;font-size:12px;cursor:pointer;transition:all 0.15s;';
+    btn.onclick = () => { activeYear = y; renderBracket(); highlightBtn(); };
+    btn.id = 'ybtn-' + y;
+    container.appendChild(btn);
+  });
+}
+function highlightBtn() {
+  years.forEach(y => {
+    const btn = document.getElementById('ybtn-' + y);
+    if (y === activeYear) { btn.style.background = '#1a1a1a'; btn.style.color = '#fff'; btn.style.borderColor = '#1a1a1a'; }
+    else { btn.style.background = '#fff'; btn.style.color = '#1a1a1a'; btn.style.borderColor = 'rgba(0,0,0,0.15)'; }
+  });
+}
+function renderBracket() {
+  const data = PLAYOFFS.filter(d => d[0] === activeYear);
+  const container = document.getElementById('bracket-container');
+  container.innerHTML = '';
+  const champion = data.find(d=>d[1]===4);
+  if (champion) {
+    const banner = document.createElement('div');
+    banner.style.cssText = 'background:#1a1a1a;color:#fff;border-radius:10px;padding:12px 20px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;';
+    banner.innerHTML = '<span style="font-size:20px">🏆</span> ' + activeYear + '–' + String(activeYear+1).slice(2) + ' NBA Champion: <span style="margin-left:6px;font-size:18px;font-weight:600">' + champion[2] + '</span>';
+    container.appendChild(banner);
+  }
+  [1,2,3,4].forEach(round => {
+    const series = data.filter(d => d[1] === round);
+    if (!series.length) return;
+    const section = document.createElement('div');
+    section.style.cssText = 'background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:14px;padding:18px 22px;margin-bottom:14px;';
+    const title = document.createElement('div');
+    title.style.cssText = 'font-size:12px;font-weight:500;color:#aaa;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;';
+    title.textContent = ROUND_NAMES[round];
+    section.appendChild(title);
+    const grid = document.createElement('div');
+    const cols = round === 1 ? 4 : round === 2 ? 2 : 1;
+    grid.style.cssText = `display:grid;grid-template-columns:repeat(${Math.min(cols, series.length)},1fr);gap:10px;`;
+    series.forEach(([yr, rd, winner, loser]) => {
+      const card = document.createElement('div');
+      card.style.cssText = 'border:0.5px solid rgba(0,0,0,0.08);border-radius:10px;overflow:hidden;';
+      const winRow = document.createElement('div');
+      winRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#f0f9e8;';
+      winRow.innerHTML = '<span style="font-size:13px;font-weight:600;color:#3b6d11">' + winner + '</span><span style="font-size:11px;color:#3b6d11;font-weight:500">WIN</span>';
+      const loseRow = document.createElement('div');
+      loseRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-top:0.5px solid rgba(0,0,0,0.06);';
+      loseRow.innerHTML = '<span style="font-size:13px;color:#888">' + loser + '</span>';
+      card.appendChild(winRow); card.appendChild(loseRow); grid.appendChild(card);
+    });
+    section.appendChild(grid); container.appendChild(section);
+  });
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+buildBrierChart([0.235, 0.220, 0.210, 0.215]);
+buildAucChart([0.58, 0.64, 0.67, 0.65]);
 buildFeatChart();
+buildBetaChart();
+buildYearButtons();
+renderBracket();
+highlightBtn();
+runMatchup();
 </script>
 </body>
 </html>
