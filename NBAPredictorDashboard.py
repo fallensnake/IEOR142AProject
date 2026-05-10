@@ -13,6 +13,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import xgboost as xgb
+import plotly.graph_objects as go
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from scipy.stats import ttest_ind
@@ -994,6 +995,84 @@ def inject_css():
         }
         .stAlert { border-radius: 8px; }
 
+        /* ──────────────────────────────────────────────────────────────────
+           st.dataframe (Glide Data Grid) — match dark terminal theme.
+           Glide exposes CSS custom properties prefixed --gdg-*; overriding
+           them on the wrapper themes the canvas-rendered grid.
+           ────────────────────────────────────────────────────────────────── */
+        [data-testid="stDataFrame"],
+        [data-testid="stDataFrameResizable"] {
+            background: rgba(12, 18, 32, 0.62) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 12px !important;
+            overflow: hidden;
+            padding: 0 !important;
+        }
+        [data-testid="stDataFrame"] > div,
+        [data-testid="stDataFrameResizable"] > div {
+            background: transparent !important;
+        }
+        /* The Glide grid container — set the CSS vars Glide reads */
+        [data-testid="stDataFrame"] [class*="dvn-scroller"],
+        [data-testid="stDataFrame"] .glideDataEditor,
+        [data-testid="stDataFrame"] [data-testid="glide-cell-0-0"],
+        [data-testid="stDataFrame"] {
+            --gdg-bg-cell:                 rgba(12, 18, 32, 0.65) !important;
+            --gdg-bg-cell-medium:          rgba(18, 27, 46, 0.78) !important;
+            --gdg-bg-header:               rgba(2, 6, 23, 0.92) !important;
+            --gdg-bg-header-has-focus:     rgba(0, 229, 255, 0.18) !important;
+            --gdg-bg-header-hovered:       rgba(0, 229, 255, 0.12) !important;
+            --gdg-text-dark:               #E6EDF3 !important;
+            --gdg-text-medium:             #C5D1DE !important;
+            --gdg-text-light:              #8B9BB0 !important;
+            --gdg-text-bubble:             #E6EDF3 !important;
+            --gdg-bg-icon-header:          #8B9BB0 !important;
+            --gdg-fg-icon-header:          #E6EDF3 !important;
+            --gdg-text-header:             #E6EDF3 !important;
+            --gdg-text-header-selected:    #00E5FF !important;
+            --gdg-text-group-header:       #E6EDF3 !important;
+            --gdg-bg-bubble:               rgba(0, 229, 255, 0.18) !important;
+            --gdg-bg-bubble-selected:      rgba(0, 229, 255, 0.32) !important;
+            --gdg-border-color:            rgba(125, 211, 252, 0.18) !important;
+            --gdg-drilldown-border:        rgba(125, 211, 252, 0.30) !important;
+            --gdg-link-color:              #00E5FF !important;
+            --gdg-cell-horizontal-padding: 12px !important;
+            --gdg-cell-vertical-padding:   8px !important;
+            --gdg-header-bottom-border-color: rgba(0, 229, 255, 0.32) !important;
+            --gdg-horizontal-border-color: rgba(125, 211, 252, 0.10) !important;
+            --gdg-accent-color:            #00E5FF !important;
+            --gdg-accent-light:            rgba(0, 229, 255, 0.18) !important;
+            --gdg-text-input-bg:           rgba(2, 6, 23, 0.95) !important;
+            --gdg-bg-search-result:        rgba(255, 176, 32, 0.20) !important;
+        }
+        [data-testid="stDataFrame"] canvas {
+            background: transparent !important;
+        }
+        /* The thin scroll/info bar Streamlit puts under the grid */
+        [data-testid="stDataFrame"] [data-testid="stDataFrameToolbar"],
+        [data-testid="stDataFrame"] [data-testid="stElementToolbar"] {
+            background: rgba(2, 6, 23, 0.85) !important;
+            color: #8B9BB0 !important;
+        }
+        [data-testid="stDataFrame"] [data-testid="stDataFrameToolbar"] button,
+        [data-testid="stDataFrame"] [data-testid="stElementToolbar"] button {
+            color: #C5D1DE !important;
+        }
+
+        /* ──────────────────────────────────────────────────────────────────
+           Plotly charts — make any st.plotly_chart container blend in.
+           ────────────────────────────────────────────────────────────────── */
+        [data-testid="stPlotlyChart"] {
+            background: transparent !important;
+        }
+        [data-testid="stPlotlyChart"] > div {
+            background: transparent !important;
+        }
+        /* Modebar (we hide it via config, but just in case) */
+        .modebar {
+            background: rgba(2, 6, 23, 0.85) !important;
+        }
+
         @media (max-width: 900px) {
             .matchup-strip { grid-template-columns: 1fr; }
             .versus { width: 54px; height: 54px; }
@@ -1014,36 +1093,40 @@ def team_panel_html(team_name: str, is_home: bool, align: str = "left") -> str:
         f"linear-gradient(135deg, {meta['color']} 0%, rgba(8,13,24,.94) 72%), "
         f"radial-gradient(circle at 10% 0%, {meta['accent']}55, transparent 18rem)"
     )
-    return f"""
-    <div class="team-panel" style="background:{gradient}; text-align:{text_align};">
-        <div class="team-abbr">{meta['abbr']}</div>
-        <div class="team-name">{team_name}</div>
-        <div class="team-loc">{icon} · {loc}</div>
-    </div>
-    """
+    # NOTE: kept as a single concatenated string with no leading whitespace so Streamlit's
+    # Markdown renderer doesn't treat the indented HTML as a code block (which is what was
+    # causing the literal "</div>" to appear in the hero).
+    return (
+        f'<div class="team-panel" style="background:{gradient}; text-align:{text_align};">'
+        f'<div class="team-abbr">{meta["abbr"]}</div>'
+        f'<div class="team-name">{team_name}</div>'
+        f'<div class="team-loc">{icon} · {loc}</div>'
+        f'</div>'
+    )
 
 
 def hero_html(team1_name: str, team2_name: str, t1_is_home: bool) -> str:
-    return f"""
-    <div class="terminal-brand">
-        <div class="eyebrow">◉ NBA MODEL TERMINAL · MATCHUP LAB</div>
-        <div class="terminal-title">Win Probability Console</div>
-        <div class="terminal-subtitle">
-            One-page command center for XGBoost matchup probability, head-to-head logistic regression edges,
-            recent history, and synthetic model inputs.
-        </div>
-        <div class="status-row">
-            <span class="status-pill">XGBoost · cached inference</span>
-            <span class="status-pill alt">LR coefficients · actionable features</span>
-            <span class="status-pill">Scenario controls live</span>
-        </div>
-        <div class="matchup-strip">
-            {team_panel_html(team1_name, t1_is_home, 'left')}
-            <div class="versus">VS</div>
-            {team_panel_html(team2_name, not t1_is_home, 'right')}
-        </div>
-    </div>
-    """
+    # Single-line concatenated string to avoid Markdown indent-as-code-block.
+    return (
+        '<div class="terminal-brand">'
+            '<div class="eyebrow">◉ NBA MODEL TERMINAL · MATCHUP LAB</div>'
+            '<div class="terminal-title">Win Probability Console</div>'
+            '<div class="terminal-subtitle">'
+                'One-page command center for XGBoost matchup probability, head-to-head logistic '
+                'regression edges, recent history, and synthetic model inputs.'
+            '</div>'
+            '<div class="status-row">'
+                '<span class="status-pill">XGBoost · cached inference</span>'
+                '<span class="status-pill alt">LR coefficients · actionable features</span>'
+                '<span class="status-pill">Scenario controls live</span>'
+            '</div>'
+            '<div class="matchup-strip">'
+                f'{team_panel_html(team1_name, t1_is_home, "left")}'
+                '<div class="versus">VS</div>'
+                f'{team_panel_html(team2_name, not t1_is_home, "right")}'
+            '</div>'
+        '</div>'
+    )
 
 
 def prob_bar_html(team1_name: str, team2_name: str, p_t1: float) -> str:
@@ -1305,7 +1388,54 @@ else:
             render_edge_card(row, team2_name)
     with chart_col:
         st.caption("Top standardized β coefficients")
-        st.bar_chart(build_beta_chart_df(filtered, n=min(10, len(filtered))), height=410)
+        chart_df = build_beta_chart_df(filtered, n=min(10, len(filtered)))
+        # Horizontal bar chart with theme-matching colors
+        # Positive β  (helps Team 1) -> lime  ;  Negative β (helps Team 2) -> red
+        bar_colors = ['#39FF14' if v > 0 else '#FF3B5C' for v in chart_df['beta']]
+        fig = go.Figure(go.Bar(
+            x=chart_df['beta'],
+            y=chart_df.index,
+            orientation='h',
+            marker=dict(
+                color=bar_colors,
+                line=dict(color='rgba(255,255,255,0.18)', width=0.8),
+            ),
+            hovertemplate='<b>%{y}</b><br>β = %{x:+.3f}<extra></extra>',
+        ))
+        fig.update_layout(
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font=dict(
+                color='#E6EDF3',
+                family='JetBrains Mono, SF Mono, Menlo, Consolas, monospace',
+                size=12,
+            ),
+            xaxis=dict(
+                gridcolor='rgba(125,211,252,0.12)',
+                zerolinecolor='rgba(0,229,255,0.45)',
+                zerolinewidth=1.5,
+                showline=False,
+                tickfont=dict(size=11, color='#8B9BB0'),
+            ),
+            yaxis=dict(
+                gridcolor='rgba(0,0,0,0)',
+                tickfont=dict(size=11, color='#E6EDF3'),
+                automargin=True,
+            ),
+            margin=dict(l=8, r=12, t=8, b=8),
+            height=410,
+            showlegend=False,
+            hoverlabel=dict(
+                bgcolor='rgba(2, 6, 23, 0.92)',
+                bordercolor='rgba(0,229,255,0.45)',
+                font=dict(color='#E6EDF3', family='JetBrains Mono, monospace', size=12),
+            ),
+        )
+        st.plotly_chart(
+            fig,
+            use_container_width=True,
+            config={'displayModeBar': False},
+        )
 
     with st.expander("Full coefficient table", expanded=False):
         display = result[['description', 'beta', 'abs_beta', 'won_mean', 'lost_mean', 't_stat', 'p_value']].copy()
